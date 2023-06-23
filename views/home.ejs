@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home</title>
+</head>
+<body>
+  <%- include('./navbar') %>
+  <% if (username) { %>
+    <h1>Hello <%= username %></h1>
+  <% } else { %>
+    <h1>Welcome to the Home Page</h1>
+  <% } %>
+
+  <div>
+    <a href="/songs/filter">Search for a Song</a>
+  </div>
+
+  <div>
+    <a href="/songs/add">Add a Song</a>
+  </div>
+</body>
+</html>

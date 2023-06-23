@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Song</title>
+</head>
+<body>
+  <%- include('./navbar') %>
+  <h1>Add a Song</h1>
+  <form id="add-song-form">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" required><br>
+
+    <label for="singerOrType">Singer/Type</label><br>
+    <input type ="text" id="singerOrType" name="singerOrType" required><br>
+
+    <!-- ... -->
+<label for="theme">Theme:</label><br>
+<select id="theme" name="theme" required>
+  <option value="">Select a Theme</option>
+  <option value="Fidelity">Fidelity</option>
+  <option value="Hope">Hope</option>
+  <option value="Confidence">Confidence</option>
+  <option value="Joy">Joy</option>
+  <option value="Worship">Worship</option>
+  <option value="Mercy">Mercy</option>
+  <option value="Gospel">Gospel</option>
+  <option value="Love">Love</option>
+  <option value="Seeking">Seeking</option>
+  <option value="Tribulations">Tribulations</option>
+  <option value="Calling">Calling</option>
+  <option value="Holyness">Holyness</option>
+  <option value="Mighty">Mighty</option>
+  <option value="The Word">The Word</option>
+  <option value="His Coming">His Coming</option>
+  <option value="Thanksgiving">Thanksgiving</option>
+  <option value="Faith">Faith</option>
+  <option value="Healing">Healing</option>
+  <option value="Comfort">Comfort</option>
+  <option value="Following Christ">Following Christ</option>
+  <option value="Truth">Truth</option>
+  <option value="Evangelism">Evangelism</option>
+  <option value="Foundation">Foundation</option>
+  <option value="Christmas">Christmas</option>
+</select><br>
+<!-- ... -->
+
+
+    <label for="lyrics">Lyrics:</label><br>
+    <textarea id="lyrics" name="lyrics" required></textarea><br>
+
+    <label for="language">Language:</label><br>
+    <input type="text" id="language" name="language" required><br>
+    
+    <label for="youtube_link">YouTube Link:</label><br>
+    <input type="text" id="youtube_link" name="youtube_link"><br>
+
+    <label for="spotify_link">Spotify Link:</label><br>
+    <input type="text" id="spotify_link" name="spotify_link"><br>
+
+    <label for="original_artist">Original Artist:</label><br>
+    <input type="text" id="original_artist" name="original_artist"><br>
+
+    <input type="submit" value="Add Song">
+  </form>
+
+  <script>
+    document.querySelector('#add-song-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+  
+      const formData = new FormData(event.target);
+  
+      const response = await fetch('/songs', {
+        method: 'POST',
+        body: new URLSearchParams([...formData])
+      });
+  
+      if (response.ok) {
+        window.location.href = '/songs/success';
+      } else {
+        alert('Error adding song');
+      }
+    });
+  </script>
+</body>
+</html>

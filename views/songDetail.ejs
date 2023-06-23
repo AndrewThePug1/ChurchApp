@@ -1,0 +1,42 @@
+<%- include('./navbar') %>
+<h1><%= song.title %></h1>
+
+<h3>Lyrics</h3>
+<p><%= song.lyrics %></p>
+
+<h3>Language</h3>
+<p><%= song.language %></p>
+
+<% if(song.theme) { %>
+<h3>Theme</h3>
+<p><%= song.theme %></p>
+<% } %>
+
+<% if(song.youtube_link) { %>
+<h3>YouTube Link</h3>
+<p><a href="<%= song.youtube_link %>"><%= song.youtube_link %></a></p>
+<% } %>
+
+<% if(song.singer_ids && song.singer_ids.length > 0) { %>
+<h3>Singers</h3>
+<ul>
+  <% song.singer_ids.forEach(singer => { %>
+    <li><%= singer %></li> <!-- You'll need to fetch and display the singer names here -->
+  <% }); %>
+</ul>
+<% } %>
+
+<% if(song.spotify_link) { %>
+<h3>Spotify Link</h3>
+<p><a href="<%= song.spotify_link %>"><%= song.spotify_link %></a></p>
+<% } %>
+
+<% if(song.original_artist) { %>
+<h3>Original Artist</h3>
+<p><%= song.original_artist %></p>
+<% } %>
+
+<% if(song.singerOrType) { %>
+<h3>Singer Or Type</h3>
+<p><%= song.singerOrType %></p>
+<% } %>

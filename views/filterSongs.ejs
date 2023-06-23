@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('./navbar') %>
+  <title>Filter Songs</title>
+  <script type="text/javascript">
+    function validateForm(event) {
+      const title = document.getElementById('title').value;
+      const language = document.getElementById('language').value;
+      const original_artist = document.getElementById('original_artist').value;
+      const singerOrType = document.getElementById('singerOrType').value;
+      const theme = document.getElementById('theme').value;
+
+      if (!title && !language && !original_artist && !singerOrType && !theme) {
+        alert('Ensure at least one field has a value');
+        event.preventDefault();
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Filter Songs</h1>
+  <h4>*Minimum of one field must have input*</h2>
+  <form action="/songs/filter" method="post" onsubmit="validateForm(event)">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" value=""><br>
+
+    <label for="language">Language:</label><br>
+    <select id="language" name="language">
+      <option value="">Select a Language</option>
+      <option value="English">English</option>
+      <option value="Spanish">Spanish</option>
+    </select><br>
+
+    <label for="original_artist">Original Artist:</label><br>
+    <input type="text" id="original_artist" name="original_artist" value=""><br>
+
+    <label for="singerOrType">Singer or Type:</label><br>
+    <select id="singerOrType" name="singerOrType">
+      <option value="">Select a Singer/Type</option>
+      <% singerOrTypes.forEach(function(singerOrType) { %>
+        <option value="<%= singerOrType %>"><%= singerOrType %></option>
+      <% }); %>
+    </select><br>
+
+    <label for="theme">Theme:</label><br>
+    <select id="theme" name="theme">
+      <option value="">Select a Theme</option>
+      <% themes.forEach(function(theme) { %>
+        <option value="<%= theme %>"><%= theme %></option>
+      <% }); %>
+    </select><br>
+
+    <input type="submit" value="Filter">
+  </form>
+</body>
+</html>

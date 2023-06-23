@@ -1,0 +1,7 @@
+<nav>
+  <a href="/">Home</a>
+  <a href="/songs/filter">Search for a Song</a>
+  <% if (typeof role !== 'undefined' && role === 'admin') { %>
+    <a href="/songs/add">Add a Song</a>
+  <% } %>
+</nav>

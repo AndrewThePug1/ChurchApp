@@ -1,11 +1,49 @@
 <% layout('layouts/boilerplate') %>
-<%- include('./navbar') %>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+<style>
+  .button-search {
+    border: 2px solid black;
+    font-weight: 500; /* Updated font weight to slightly bolded */
+    color: #333; /* Updated text color to a little darker shade */
+  }
+
+  .form-control {
+    background-color: #f2f2f2;
+    color: black;
+    border: none;
+  }
+
+  .form-control:hover {
+    background-color: #e6e6e6;
+  }
+  
+  h1, h4 {
+    padding-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  h4 {
+    font-family: 'Roboto', sans-serif;
+    font-style: italic;
+    letter-spacing: 1px;
+    color: #555;
+  }
+</style>
 
 <div class="row">
-  <h1 class="text-center">Filter Songs</h1>
-  <h4 class="text-center">*Minimum of one field must have input*</h4>
+  <h1 class="text-left pl-4">Filter Songs</h1>
+  <h4 class="text-left font-weight-bold font-italic text-dark pl-4">Please fill out at least one field.</h4>
 
-  <div class="col-6 offset-3">
+  <div class="col-6 pl-4">
     <form action="/songs/filter" method="post" onsubmit="validateForm(event)">
       <label class="form-label" for="title">Title:</label><br>
       <div class="mb-3">
@@ -47,7 +85,7 @@
       </div>
       
       <div class="mb-3">
-        <input type="submit" value="Filter">
+        <button class="btn btn-outline-dark text-dark button-search">Search</button>
       </div>
     </form>
   </div>

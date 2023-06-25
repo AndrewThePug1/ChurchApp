@@ -1,44 +1,94 @@
 <% layout('layouts/boilerplate') %>
-<%- include('./navbar') %>
 
-<h1><%= song.title %></h1>
+<style>
+  body {
+    text-align: left;
+  }
 
-<h3>Lyrics</h3>
-<p><%= song.lyrics %></p>
+  h1, h3, p {
+    font-family: 'Roboto', sans-serif;
+    color: black;
+  }
 
-<h3>Language</h3>
-<p><%= song.language %></p>
+  h1 {
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    padding-bottom: 20px;
+  }
 
-<% if (song.theme) { %>
-  <h3>Theme</h3>
-  <p><%= song.theme %></p>
-<% } %>
+  h3 {
+    margin-top: 20px;
+  }
 
-<% if (song.youtube_link) { %>
-  <h3>YouTube Link</h3>
-  <p><a href="<%= song.youtube_link %>"><%= song.youtube_link %></a></p>
-<% } %>
+  ul {
+    margin-top: 10px;
+    margin-left: 20px;
+    list-style-type: disc;
+  }
 
-<% if (song.singer_ids && song.singer_ids.length > 0) { %>
-  <h3>Singers</h3>
-  <ul>
-    <% song.singer_ids.forEach(singer => { %>
-      <li><%= singer %></li> <!-- You'll need to fetch and display the singer names here -->
-    <% }); %>
-  </ul>
-<% } %>
+  .song-detail-fields {
+    text-align: left;
+  }
 
-<% if (song.spotify_link) { %>
-  <h3>Spotify Link</h3>
-  <p><a href="<%= song.spotify_link %>"><%= song.spotify_link %></a></p>
-<% } %>
+  .shortened-link {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+    display: inline-block;
+  }
+</style>
 
-<% if (song.original_artist) { %>
-  <h3>Original Artist</h3>
-  <p><%= song.original_artist %></p>
-<% } %>
+<div class="row">
+  <h1 class="text-left pl-4"><%= song.title %></h1>
 
-<% if (song.singerOrType) { %>
-  <h3>Singer Or Type</h3>
-  <p><%= song.singerOrType %></p>
-<% } %>
+  <div class="col-6 song-detail-fields">
+    <h3 class="mt-4">Lyrics</h3>
+    <p><%= song.lyrics %></p>
+
+    <h3 class="mt-4">Language</h3>
+    <p><%= song.language %></p>
+
+    <% if (song.theme) { %>
+      <h3 class="mt-4">Theme</h3>
+      <p><%= song.theme %></p>
+    <% } %>
+
+    <% if (song.youtube_link) { %>
+      <h3 class="mt-4">YouTube Link</h3>
+      <p>
+        <a href="<%= song.youtube_link %>" style="color: black; text-decoration: none;" title="<%= song.youtube_link %>">
+          <span class="shortened-link">
+            <%= song.youtube_link %>
+          </span>
+        </a>
+      </p>
+    <% } %>
+
+    <% if (song.singer_ids && song.singer_ids.length > 0) { %>
+      <h3 class="mt-4">Singers</h3>
+      <ul>
+        <% song.singer_ids.forEach(singer => { %>
+          <li><%= singer %></li> <!-- You'll need to fetch and display the singer names here -->
+        <% }); %>
+      </ul>
+    <% } %>
+
+    <% if (song.spotify_link) { %>
+      <h3 class="mt-4">Spotify Link</h3>
+      <p><a href="<%= song.spotify_link %>" style="color: black; text-decoration: none;"><%= song.spotify_link %></a></p>
+    <% } %>
+
+    <% if (song.original_artist) { %>
+      <h3 class="mt-4">Original Artist</h3>
+      <p><%= song.original_artist %></p>
+    <% } %>
+
+    <% if (song.singerOrType) { %>
+      <h3 class="mt-4">Singer Or Type</h3>
+      <p><%= song.singerOrType %></p>
+    <% } %>
+  </div>
+</div>

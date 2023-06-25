@@ -1,21 +1,63 @@
 <% layout('layouts/boilerplate') %>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+<style>
+  .button-add-song {
+    border: 2px solid black;
+    font-weight: 500; /* Updated font weight to slightly bolded */
+    color: #333; /* Updated text color to a little darker shade */
+  }
+
+  .form-control {
+    background-color: #f2f2f2;
+    color: black;
+    border: none;
+  }
+
+  .form-control:hover {
+    background-color: #e6e6e6;
+  }
+  
+  h1, h4 {
+    padding-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  h4 {
+    font-family: 'Roboto', sans-serif;
+    font-style: italic;
+    letter-spacing: 1px;
+    color: #555;
+  }
+</style>
+
 <div class="row">
-  <h1 class="text-center">New Song</h1>
-  <div class="col-6 offset-3">
+  <h1 class="text-left pl-4">New Song</h1>
+  <h4 class="text-left font-weight-bold font-italic text-dark pl-4">Please fill out required fields.</h4>
+
+  <div class="col-6 pl-4">
     <form id="add-song-form">
-      <label class="form-label" for="title">Title:</label>
+      <label class="form-label" for="title">Title<span style="color: black">*</span>:</label><br>
       <div class="mb-3">
         <input class="form-control" type="text" id="title" name="title" required>
       </div>
     
-      <label class="form-label" for="singerOrType">Singer/Type</label>
+      <label class="form-label" for="singerOrType">Singer/Type<span style="color: black">*</span>:</label><br>
       <div class="mb-3">
         <input class="form-control" type="text" id="singerOrType" name="singerOrType" required>
       </div>
     
       <!-- ... -->
 
-      <label class="form-label" for="theme">Theme:</label>
+      <label class="form-label" for="theme">Theme<span style="color: black">*</span>:</label><br>
       <div class="mb-3">
         <select id="theme" class="form-control" name="theme" required>
           <option value="">Select a Theme</option>
@@ -27,33 +69,33 @@
       </div>
       <!-- ... -->
     
-      <label class="form-label" for="lyrics">Lyrics:</label>
+      <label class="form-label" for="lyrics">Lyrics<span style="color: black">*</span>:</label><br>
       <div class="mb-3">
-        <textarea id="lyrics" name="lyrics" required></textarea>
+        <textarea class="form-control" id="lyrics" name="lyrics" required></textarea>
       </div>
     
-      <label class="form-label" for="language">Language:</label>
+      <label class="form-label" for="language">Language<span style="color: black">*</span>:</label><br>
       <div class="mb-3">
         <input class="form-control" type="text" id="language" name="language" required>
       </div>
     
-      <label class="form-label" for="youtube_link">YouTube Link:</label>
+      <label class="form-label" for="youtube_link">YouTube Link:</label><br>
       <div class="mb-3">
         <input class="form-control" type="text" id="youtube_link" name="youtube_link">
       </div>
     
-      <label class="form-label" for="spotify_link">Spotify Link:</label>
+      <label class="form-label" for="spotify_link">Spotify Link:</label><br>
       <div class="mb-3">
         <input class="form-control" type="text" id="spotify_link" name="spotify_link">
       </div>
     
-      <label class="form-label" for="original_artist">Original Artist:</label>
+      <label class="form-label" for="original_artist">Original Artist:</label><br>
       <div class="mb-3">
         <input class="form-control" type="text" id="original_artist" name="original_artist">
       </div>
     
       <div class="mb-3">
-        <input type="submit" value="Add Song">
+        <button class="btn btn-outline-dark text-dark button-add-song">Add Song</button>
       </div>
     </form>
     

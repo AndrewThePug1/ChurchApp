@@ -7,6 +7,12 @@ import User from './models/User'; // Import User model
 
 import { connectDB } from './database';
 
+// Add this new interface
+interface CustomSession extends session.Session {
+  userId?: string;
+  role?: string;
+}
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -42,7 +48,8 @@ app.use('/songs', songRoutes);
 
 // Simple route for testing
 app.get('/', async (req: Request, res: Response) => {
-  const user = await User.findById(req.session.userId);
+  const session = req.session as CustomSession;
+  const user = await User.findById(session.userId);
   res.render('home', { username: user ? user.username : '' });
 });
 

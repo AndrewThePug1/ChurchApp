@@ -50,8 +50,9 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     if (!user)
         return res.status(400).send('Invalid username or password');
     // Store the user's id and role in the session
-    req.session.userId = user.id;
-    req.session.role = user.role;
+    const session = req.session;
+    session.userId = user.id;
+    session.role = user.role;
     res.send('Logged in successfully');
 }));
 // Render the login form

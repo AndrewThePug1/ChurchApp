@@ -1,37 +1,46 @@
 import { Router, Request, Response } from 'express';
 import User from './models/User';
 
+// Import the session module
+import session from 'express-session';
+
+// Add this new interface
+interface CustomSession extends session.Session {
+  userId?: string;
+  role?: string;
+}
+
 const router = Router();
 
 const secretKey = 'ReallySecureKey';
 
 router.post('/register', async (req, res) => {
-    const { username, password, role, key } = req.body;
-  
-    try {
-      // Check if the username already exists in the database
-      const existingUser = await User.findOne({ username });
-      if (existingUser) {
-        return res.status(400).send('Username already exists');
-      }
-  
-      // Check if the role is "admin" and if a valid secret key is provided
-      if (role === 'admin' && key !== secretKey) {
-        return res.status(400).send('Invalid secret key');
-      }
-  
-      const user = new User({
-        username,
-        password,
-        role,
-      });
-  
-      await user.save();
-      res.send('User registered successfully');
-    } catch (error) {
-      res.status(500).send('Error registering user');
+  const { username, password, role, key } = req.body;
+
+  try {
+    // Check if the username already exists in the database
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).send('Username already exists');
     }
-  });
+
+    // Check if the role is "admin" and if a valid secret key is provided
+    if (role === 'admin' && key !== secretKey) {
+      return res.status(400).send('Invalid secret key');
+    }
+
+    const user = new User({
+      username,
+      password,
+      role,
+    });
+
+    await user.save();
+    res.send('User registered successfully');
+  } catch (error) {
+    res.status(500).send('Error registering user');
+  }
+});
 
 // Render the registration form
 router.get('/register', (req, res) => {
@@ -46,8 +55,9 @@ router.post('/login', async (req, res) => {
   if (!user) return res.status(400).send('Invalid username or password');
 
   // Store the user's id and role in the session
-  req.session.userId = user.id;
-  req.session.role = user.role;
+  const session = req.session as CustomSession;
+  session.userId = user.id;
+  session.role = user.role;
 
   res.send('Logged in successfully');
 });

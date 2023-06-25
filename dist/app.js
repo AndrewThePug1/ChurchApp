@@ -44,7 +44,8 @@ app.use('/', userRoutes_1.default);
 app.use('/songs', songRoutes_1.default);
 // Simple route for testing
 app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield User_1.default.findById(req.session.userId);
+    const session = req.session;
+    const user = yield User_1.default.findById(session.userId);
     res.render('home', { username: user ? user.username : '' });
 }));
 // Start server

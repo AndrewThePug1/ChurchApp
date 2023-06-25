@@ -20,7 +20,9 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const song = new Song_1.default(req.body);
         yield song.save();
-        res.status(201).send(song);
+        // Retrieve the song details
+        const savedSong = yield Song_1.default.findById(song._id);
+        res.render('success', { song: savedSong }); // Pass the song details to the success template
     }
     catch (error) {
         res.status(400).send(error);

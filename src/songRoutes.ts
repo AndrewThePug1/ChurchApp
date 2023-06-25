@@ -6,13 +6,18 @@ const router = express.Router();
 // Create a new song
 router.post('/', async (req: Request, res: Response) => {
     try {
-        const song = new Song(req.body);
-        await song.save();
-        res.status(201).send(song);
+      const song = new Song(req.body);
+      await song.save();
+  
+      // Retrieve the song details
+      const savedSong = await Song.findById(song._id);
+  
+      res.render('success', { song: savedSong }); // Pass the song details to the success template
     } catch (error) {
-        res.status(400).send(error);
+      res.status(400).send(error);
     }
-});
+  });
+  
 
 // Delete a song
 router.delete('/:id', async (req: Request, res: Response) => {

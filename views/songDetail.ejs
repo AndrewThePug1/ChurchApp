@@ -59,7 +59,7 @@
     <% if (song.youtube_link) { %>
       <h3 class="mt-4">YouTube Link</h3>
       <p>
-        <a href="<%= song.youtube_link %>" style="color: black; text-decoration: none;" title="<%= song.youtube_link %>">
+        <a href="<%= song.youtube_link %>" style="color: black; text-decoration: none;" title="<%= song.youtube_link %>" target="_blank">
           <span class="shortened-link">
             <%= song.youtube_link %>
           </span>
@@ -78,7 +78,13 @@
 
     <% if (song.spotify_link) { %>
       <h3 class="mt-4">Spotify Link</h3>
-      <p><a href="<%= song.spotify_link %>" style="color: black; text-decoration: none;"><%= song.spotify_link %></a></p>
+      <p>
+        <a href="<%= song.spotify_link %>" style="color: black; text-decoration: none;" title="<%= song.spotify_link %>" target="_blank">
+          <span class="shortened-link">
+            <%= song.spotify_link %>
+          </span>
+        </a>
+      </p>
     <% } %>
 
     <% if (song.original_artist) { %>

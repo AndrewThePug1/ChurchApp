@@ -15,6 +15,7 @@ interface CustomSession extends session.Session {
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const ejsMate = require('ejs-mate');
 
 // Connect to the database
 connectDB().catch((err) => {
@@ -22,6 +23,7 @@ connectDB().catch((err) => {
   process.exit(1);
 });
 
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '..', 'views'));
 

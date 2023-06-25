@@ -1,38 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Login</title>
-</head>
-<body>
-  <%- include('./navbar') %>
-  <h1>Login</h1>
-  <form id="login-form">
-    <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username" required><br>
+<% layout('layouts/boilerplate') %>
+<%- include('./navbar') %>
 
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password" required><br>
+<h1>Login</h1>
 
-    <input type="submit" value="Login">
-  </form>
+<form id="login-form">
+  <label for="username">Username:</label><br>
+  <input type="text" id="username" name="username" required><br>
 
-  <script>
-    document.querySelector('#login-form').addEventListener('submit', async (event) => {
-      event.preventDefault();
-  
-      const formData = new FormData(event.target);
-  
-      const response = await fetch('/login', {
-        method: 'POST',
-        body: new URLSearchParams([...formData])
-      });
-  
-      if (response.ok) {
-        window.location.href = '/';
-      } else {
-        alert('Error logging in');
-      }
+  <label for="password">Password:</label><br>
+  <input type="password" id="password" name="password" required><br>
+
+  <input type="submit" value="Login">
+</form>
+
+<script>
+  document.querySelector('#login-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+
+    const response = await fetch('/login', {
+      method: 'POST',
+      body: new URLSearchParams([...formData]),
     });
-  </script>
-</body>
-</html>
+
+    if (response.ok) {
+      window.location.href = '/';
+    } else {
+      alert('Error logging in');
+    }
+  });
+</script>

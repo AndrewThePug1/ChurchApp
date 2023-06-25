@@ -1,60 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Register</title>
-</head>
-<body>
-  <%- include('./navbar') %>
-  <h1>Register</h1>
-  <form id="register-form">
-    <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username" required><br>
+<% layout('layouts/boilerplate') %>
+<%- include('./navbar') %>
 
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password" required><br>
+<h1>Register</h1>
 
-    <label for="role">Role:</label><br>
-    <select id="role" name="role" required>
-      <option value="user">User</option>
-      <option value="admin">Admin</option>
-    </select><br>
+<form id="register-form">
+  <label for="username">Username:</label><br>
+  <input type="text" id="username" name="username" required><br>
 
-    <div id="secret-key" style="display: none;">
-      <label for="key">Secret Key:</label><br>
-      <input type="password" id="key" name="key"><br>
-    </div>
+  <label for="password">Password:</label><br>
+  <input type="password" id="password" name="password" required><br>
 
-    <input type="submit" value="Register">
-  </form>
+  <label for="role">Role:</label><br>
+  <select id="role" name="role" required>
+    <option value="user">User</option>
+    <option value="admin">Admin</option>
+  </select><br>
 
-  <script>
-    const roleSelect = document.querySelector('#role');
-    const secretKeyDiv = document.querySelector('#secret-key');
+  <div id="secret-key" style="display: none;">
+    <label for="key">Secret Key:</label><br>
+    <input type="password" id="key" name="key"><br>
+  </div>
 
-    roleSelect.addEventListener('change', () => {
-      if (roleSelect.value === 'admin') {
-        secretKeyDiv.style.display = 'block';
-      } else {
-        secretKeyDiv.style.display = 'none';
-      }
+  <input type="submit" value="Register">
+</form>
+
+<script>
+  const roleSelect = document.querySelector('#role');
+  const secretKeyDiv = document.querySelector('#secret-key');
+
+  roleSelect.addEventListener('change', () => {
+    if (roleSelect.value === 'admin') {
+      secretKeyDiv.style.display = 'block';
+    } else {
+      secretKeyDiv.style.display = 'none';
+    }
+  });
+
+  document.querySelector('#register-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+
+    const response = await fetch('/register', {
+      method: 'POST',
+      body: new URLSearchParams([...formData]),
     });
 
-    document.querySelector('#register-form').addEventListener('submit', async (event) => {
-      event.preventDefault();
-  
-      const formData = new FormData(event.target);
-  
-      const response = await fetch('/register', {
-        method: 'POST',
-        body: new URLSearchParams([...formData])
-      });
-  
-      if (response.ok) {
-        window.location.href = '/login';
-      } else {
-        alert('Error registering');
-      }
-    });
-  </script>
-</body>
-</html>
+    if (response.ok) {
+      window.location.href = '/login';
+    } else {
+      alert('Error registering');
+    }
+  });
+</script>

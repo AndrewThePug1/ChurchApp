@@ -21,11 +21,13 @@ const User_1 = __importDefault(require("./models/User")); // Import User model
 const database_1 = require("./database");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
+const ejsMate = require('ejs-mate');
 // Connect to the database
 (0, database_1.connectDB)().catch((err) => {
     console.error('Failed to connect to the database', err);
     process.exit(1);
 });
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path_1.default.join(__dirname, '..', 'views'));
 // Session middleware setup

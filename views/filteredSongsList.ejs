@@ -1,10 +1,19 @@
+<% layout('layouts/boilerplate') %>
 <%- include('./navbar') %>
+
 <h1>Filtered Songs</h1>
 
 <ul>
-<% songs.forEach(song => { %>
-  <li>
-    <a href="/songs/<%= song._id %>"><%= song.title %></a>
-  </li>
-<% }); %>
+  <% songs.forEach(song => { %>
+    <div class="card" mb-3>
+      
+     <div class="col-mg-8">
+      <h5 class="card-title">
+        <a href="/songs/<%= song._id %>"><%= song.title %></a>
+        <p class="card-text"><%= song.singerOrType %></p>
+      </h5>
+     </div>
+    </div>
+
+  <% }); %>
 </ul>

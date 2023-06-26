@@ -1,18 +1,11 @@
 <!DOCTYPE html>
-<html>
-    <head></head>
-    <body>
-        <h1>MongoDB with Netlify Functions</h1>
-        <ul id="movies"></ul>
-        <script>
-            (async () => {
-                let results = await fetch("/.netlify/functions/get_songs").then(response => response.json());
-                results.forEach(result => {
-                    const listItem = document.createElement("li");
-                    listItem.innerText = result.title;
-                    document.getElementById("movies").appendChild(listItem);
-                });
-            })();
-        </script>
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing</title>
+</head>
+<body>
+    
+</body>
 </html>

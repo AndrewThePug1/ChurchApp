@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/app.js",
     "dev": "concurrently -k \"tsc -w\" \"nodemon dist/app.js\"",
-    "build": "tsc && copyfiles src/index.html dist/",
+    "build": "tsc",
     "postbuild": "copyfiles -u 1 src/views/*.ejs dist/views",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

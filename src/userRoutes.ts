@@ -59,7 +59,7 @@ router.post('/login', async (req, res) => {
   session.userId = user.id;
   session.role = user.role;
 
-  res.redirect('/home');
+  res.redirect('../views/home');
 });
 
 // Render the login form

@@ -74,10 +74,7 @@ app.use('/', userRoutes);
 app.use('/songs', songRoutes);
 
 
-// Render the 'register.ejs' template for the root URL
-app.get('/', (req: Request, res: Response) => {
-  res.render('register');
-});
+
 
 // Simple route for testing
 app.get('/', async (req: Request, res: Response) => {

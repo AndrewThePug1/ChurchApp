@@ -63,10 +63,6 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.use('/', userRoutes_1.default);
 // Use song routes
 app.use('/songs', songRoutes_1.default);
-// Render the 'register.ejs' template for the root URL
-app.get('/', (req, res) => {
-    res.render('register');
-});
 // Simple route for testing
 app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const session = req.session;

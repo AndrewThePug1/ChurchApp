@@ -53,7 +53,7 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const session = req.session;
     session.userId = user.id;
     session.role = user.role;
-    res.send('Logged in successfully');
+    res.redirect('/home');
 }));
 // Render the login form
 router.get('/login', (req, res) => {

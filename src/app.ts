@@ -38,9 +38,10 @@ const store = new MongoDBStore({
   touchAfter: 24 * 60 * 60
 });
 
-store.on("error", function(e){
+store.on("error", function(e: Error){
   console.log("SESSION STORE ERROR", e)
 })
+
 
 
 

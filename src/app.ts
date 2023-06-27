@@ -77,7 +77,7 @@ app.use('/songs', songRoutes);
 app.get('/', async (req: Request, res: Response) => {
   const session = req.session as CustomSession;
   const user = await User.findById(session.userId);
-  res.render('home', { username: user ? user.username : '' });
+  res.render('register', { username: user ? user.username : '' });
 });
 
 // Start server

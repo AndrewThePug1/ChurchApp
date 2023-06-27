@@ -67,7 +67,7 @@ app.use('/songs', songRoutes_1.default);
 app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const session = req.session;
     const user = yield User_1.default.findById(session.userId);
-    res.render('home', { username: user ? user.username : '' });
+    res.render('register', { username: user ? user.username : '' });
 }));
 // Start server
 app.listen(PORT, () => {

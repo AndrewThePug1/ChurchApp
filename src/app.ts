@@ -13,12 +13,15 @@ interface CustomSession extends session.Session {
   role?: string;
 }
 
+const MongoStore = require("connect-mongo")(session);
 const app = express();
 const PORT = process.env.PORT || 3000;
 const ejsMate = require('ejs-mate');
+const MongoDBStore = require("connect-mongo")(session);
+const dbUrl = 'mongodb+srv://AndrewThePug1:Atlasturtle22!@cluster0.lzrg3yn.mongodb.net/?retryWrites=true&w=majority' || 'mongodb://localhost:27017/songManagement';
 
 // Connect to the database
-connectDB().catch((err) => {
+connectDB(dbUrl).catch((err) => {
   console.error('Failed to connect to the database', err);
   process.exit(1);
 });
@@ -27,14 +30,35 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '..', 'views'));
 
+
+
+const store = new MongoDBStore({
+  url: dbUrl,
+  secret: 'areallygoodsecret',
+  touchAfter: 24 * 60 * 60
+});
+
+store.on("error", function(e){
+  console.log("SESSION STORE ERROR", e)
+})
+
+
+
+const sessionConfig = {
+  store,
+  name: 'session',
+  secret: 'mySecret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+}
+
 // Session middleware setup
-app.use(
-  session({
-    secret: 'mySecret',
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+app.use(session(sessionConfig));
 
 // Middleware to parse JSON bodies
 app.use(express.json());

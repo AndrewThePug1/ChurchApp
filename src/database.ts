@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
-export const connectDB = async () => {
+export const connectDB = async (dbURI: string) => {
     try {
-        await mongoose.connect('mongodb+srv://AndrewThePug1:Atlasturtle22!@cluster0.lzrg3yn.mongodb.net/?retryWrites=true&w=majority')
-        console.log('Database connected succesfully');
+        await mongoose.connect(dbURI);
+        console.log('Database connected successfully');
     } catch (error) {
         console.error('Error connecting to database: ', error);
         process.exit(1);

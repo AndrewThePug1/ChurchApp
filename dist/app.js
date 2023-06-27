@@ -19,23 +19,42 @@ const userRoutes_1 = __importDefault(require("./userRoutes"));
 const songRoutes_1 = __importDefault(require("./songRoutes"));
 const User_1 = __importDefault(require("./models/User")); // Import User model
 const database_1 = require("./database");
+const MongoStore = require("connect-mongo")(express_session_1.default);
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
 const ejsMate = require('ejs-mate');
+const MongoDBStore = require("connect-mongo")(express_session_1.default);
+const dbUrl = 'mongodb+srv://AndrewThePug1:Atlasturtle22!@cluster0.lzrg3yn.mongodb.net/?retryWrites=true&w=majority' || 'mongodb://localhost:27017/songManagement';
 // Connect to the database
-(0, database_1.connectDB)().catch((err) => {
+(0, database_1.connectDB)(dbUrl).catch((err) => {
     console.error('Failed to connect to the database', err);
     process.exit(1);
 });
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path_1.default.join(__dirname, '..', 'views'));
-// Session middleware setup
-app.use((0, express_session_1.default)({
+const store = new MongoDBStore({
+    url: dbUrl,
+    secret: 'areallygoodsecret',
+    touchAfter: 24 * 60 * 60
+});
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e);
+});
+const sessionConfig = {
+    store,
+    name: 'session',
     secret: 'mySecret',
     resave: false,
-    saveUninitialized: false,
-}));
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+};
+// Session middleware setup
+app.use((0, express_session_1.default)(sessionConfig));
 // Middleware to parse JSON bodies
 app.use(express_1.default.json());
 // Middleware to parse urlencoded bodies

@@ -15,13 +15,42 @@
     letter-spacing: 1px;
     color: #555;
   }
+  
+  .song-item {
+    margin: 10px 0;
+  }
 </style>
 
-<div class="text-center">
-  <% if (username) { %>
-    <h1 class="home-heading">Hello <%= username %></h1>
-  <% } %>
+<input type="text" id="search-input" placeholder="Search Songs">
 
-  <h1 class="home-heading">Find SCC Fort Worth's Songs</h1>
-  <p class="home-message">Explore our collection of worship songs</p>
+<div id="search-results">
+  <!-- Search results will be appended here -->
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $('#search-input').on('input', function(e){
+    const queryText = e.target.value;
+    if (!queryText) {
+      $('#search-results').empty();
+      return;
+    }
+    $.ajax({
+      url: '/songs/search',
+      type: 'GET',
+      data: { title: queryText },
+      success: function(data){
+        $('#search-results').empty();
+        data.forEach(function(song){
+          $('#search-results').append('<div class="song-item">' + song.title + '</div>');
+        });
+      },
+      error: function(err){
+        console.error('Error occurred during search:', err);
+      }
+    });
+  });
+});
+</script>

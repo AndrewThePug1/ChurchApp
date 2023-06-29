@@ -1,7 +1,12 @@
 import express, { Request, Response } from 'express';
 import Song from './models/Song';
+import { AsyncLocalStorage } from 'async_hooks';
+import mongoose from 'mongoose';
 
 const router = express.Router();
+
+
+
 
 // Create a new song
 router.post('/', async (req: Request, res: Response) => {
@@ -101,6 +106,52 @@ router.get('/success', (req: Request, res: Response) => {
   });
 
 
+router.get('/search', async (req: Request, res: Response) => {
+    try {
+      const { title } = req.query;
+  
+  
+      const agg = [
+        {
+          $search: {
+            autocomplete: {
+              query: title,
+              path: 'title',
+              fuzzy: {
+                maxEdits: 2,
+              },
+            },
+          },
+        },
+        {
+          $limit: 5,
+        },
+        {
+          $project: {
+            _id: 0,
+            title: 1,
+          },
+        },
+      ];
+  
+  
+      const response = await Song.aggregate(agg);
+  
+  
+      return res.json(response);
+    } catch (error) {
+      console.log('Error occurred during search:', error);
+      return res.status(500).json([]);
+    }
+  });
+  
+  
+
+
+
+
+
+
 //detailed routes to server detailed info about a song when given a song ID
 router.get('/:id', async (req: Request, res: Response) => {
     try {
@@ -133,7 +184,6 @@ router.post('/filter', async (req: Request, res: Response) => {
         res.status(500).send();
     }
 });
-
 
 
 

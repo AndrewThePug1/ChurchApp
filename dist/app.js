@@ -24,7 +24,7 @@ const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
 const ejsMate = require('ejs-mate');
 const MongoDBStore = require("connect-mongo")(express_session_1.default);
-const dbUrl = 'mongodb+srv://AndrewThePug1:Atlasturtle22!@cluster0.lzrg3yn.mongodb.net/?retryWrites=true&w=majority' || 'mongodb://localhost:27017/songManagement';
+const dbUrl = 'mongodb+srv://AndrewThePug1:Atlasturtle22!@cluster0.lzrg3yn.mongodb.net/?retryWrites=true&w=majority'; //|| 'mongodb://localhost:27017/songManagement';
 // Connect to the database
 (0, database_1.connectDB)(dbUrl).catch((err) => {
     console.error('Failed to connect to the database', err);

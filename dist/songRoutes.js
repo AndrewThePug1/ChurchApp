@@ -99,6 +99,39 @@ router.get('/filter', (req, res) => __awaiter(void 0, void 0, void 0, function* 
 router.get('/success', (req, res) => {
     res.render('success'); // Renders success.ejs
 });
+router.get('/search', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { title } = req.query;
+        const agg = [
+            {
+                $search: {
+                    autocomplete: {
+                        query: title,
+                        path: 'title',
+                        fuzzy: {
+                            maxEdits: 2,
+                        },
+                    },
+                },
+            },
+            {
+                $limit: 5,
+            },
+            {
+                $project: {
+                    _id: 0,
+                    title: 1,
+                },
+            },
+        ];
+        const response = yield Song_1.default.aggregate(agg);
+        return res.json(response);
+    }
+    catch (error) {
+        console.log('Error occurred during search:', error);
+        return res.status(500).json([]);
+    }
+}));
 //detailed routes to server detailed info about a song when given a song ID
 router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

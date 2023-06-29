@@ -3,6 +3,8 @@ import path from 'path';
 import session from 'express-session';
 import userRoutes from './userRoutes';
 import songRoutes from './songRoutes';
+
+
 import User from './models/User'; // Import User model
 
 import { connectDB } from './database';
@@ -18,7 +20,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const ejsMate = require('ejs-mate');
 const MongoDBStore = require("connect-mongo")(session);
-const dbUrl = 'mongodb+srv://AndrewThePug1:Atlasturtle22!@cluster0.lzrg3yn.mongodb.net/?retryWrites=true&w=majority' || 'mongodb://localhost:27017/songManagement';
+const dbUrl = 'mongodb+srv://AndrewThePug1:Atlasturtle22!@cluster0.lzrg3yn.mongodb.net/?retryWrites=true&w=majority'; //|| 'mongodb://localhost:27017/songManagement';
+
 
 // Connect to the database
 connectDB(dbUrl).catch((err) => {
@@ -72,6 +75,8 @@ app.use('/', userRoutes);
 
 // Use song routes
 app.use('/songs', songRoutes);
+
+
 
 
 

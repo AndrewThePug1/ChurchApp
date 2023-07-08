@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -64,11 +55,11 @@ app.use('/', userRoutes_1.default);
 // Use song routes
 app.use('/songs', songRoutes_1.default);
 // Simple route for testing
-app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/', async (req, res) => {
     const session = req.session;
-    const user = yield User_1.default.findById(session.userId);
+    const user = await User_1.default.findById(session.userId);
     res.render('home', { username: user ? user.username : '' });
-}));
+});
 // Start server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

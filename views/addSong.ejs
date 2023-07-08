@@ -5,8 +5,8 @@
 <style>
   .button-add-song {
     border: 2px solid black;
-    font-weight: 500; /* Updated font weight to slightly bolded */
-    color: #333; /* Updated text color to a little darker shade */
+    font-weight: 500;
+    color: #333;
   }
 
   .form-control {
@@ -18,7 +18,7 @@
   .form-control:hover {
     background-color: #e6e6e6;
   }
-  
+
   h1, h4 {
     padding-bottom: 20px;
   }
@@ -49,12 +49,12 @@
       <div class="mb-3">
         <input class="form-control" type="text" id="title" name="title" required>
       </div>
-    
+
       <label class="form-label" for="singerOrType">Singer/Type<span style="color: black">*</span>:</label><br>
       <div class="mb-3">
         <input class="form-control" type="text" id="singerOrType" name="singerOrType" required>
       </div>
-    
+
       <!-- ... -->
 
       <label class="form-label" for="theme">Theme<span style="color: black">*</span>:</label><br>
@@ -68,54 +68,79 @@
         </select>
       </div>
       <!-- ... -->
-    
+
       <label class="form-label" for="lyrics">Lyrics<span style="color: black">*</span>:</label><br>
       <div class="mb-3">
         <textarea class="form-control" id="lyrics" name="lyrics" required></textarea>
       </div>
-    
+
       <label class="form-label" for="language">Language<span style="color: black">*</span>:</label><br>
       <div class="mb-3">
         <input class="form-control" type="text" id="language" name="language" required>
       </div>
-    
+
       <label class="form-label" for="youtube_link">YouTube Link:</label><br>
       <div class="mb-3">
         <input class="form-control" type="text" id="youtube_link" name="youtube_link">
       </div>
-    
+
       <label class="form-label" for="spotify_link">Spotify Link:</label><br>
       <div class="mb-3">
         <input class="form-control" type="text" id="spotify_link" name="spotify_link">
       </div>
-    
+
       <label class="form-label" for="original_artist">Original Artist:</label><br>
       <div class="mb-3">
         <input class="form-control" type="text" id="original_artist" name="original_artist">
       </div>
-    
+
       <div class="mb-3">
         <button class="btn btn-outline-dark text-dark button-add-song">Add Song</button>
       </div>
     </form>
-    
-    <script>
-      document.querySelector('#add-song-form').addEventListener('submit', async (event) => {
-        event.preventDefault();
-    
-        const formData = new FormData(event.target);
-    
-        const response = await fetch('/songs', {
-          method: 'POST',
-          body: new URLSearchParams([...formData]),
-        });
-    
-        if (response.ok) {
-          window.location.href = '/songs/success';
-        } else {
-          alert('Error adding song');
-        }
-      });
-    </script>
   </div>
 </div>
+
+<script>
+  document.querySelector('#add-song-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const youtubeLinkInput = document.getElementById('youtube_link');
+    const spotifyLinkInput = document.getElementById('spotify_link');
+
+    const youtubeLink = youtubeLinkInput.value.trim();
+    const spotifyLink = spotifyLinkInput.value.trim();
+
+    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)\S+$/;
+    const spotifyRegex = /^(https?:\/\/)?(www\.)?open\.spotify\.com\/track\/\S+$/;
+
+    let isValid = true;
+
+    if (youtubeLink !== '' && !youtubeRegex.test(youtubeLink)) {
+      isValid = false;
+      alert('Please enter a valid YouTube link');
+      youtubeLinkInput.focus();
+    }
+
+    if (spotifyLink !== '' && !spotifyRegex.test(spotifyLink)) {
+      isValid = false;
+      alert('Please enter a valid Spotify link');
+      spotifyLinkInput.focus();
+    }
+
+    if (isValid) {
+      const formData = new FormData(event.target);
+
+      const response = await fetch('/songs', {
+        method: 'POST',
+        body: new URLSearchParams([...formData]),
+      });
+
+      if (response.ok) {
+        window.location.href = '/songs/success';
+      } else {
+        alert('Error adding song');
+      }
+    }
+  });
+</script>

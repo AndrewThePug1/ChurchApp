@@ -27,6 +27,19 @@
   <!-- Search results will be appended here -->
 </div>
 
+<hr>
+
+<h2>Get Song Recommendations</h2>
+
+<label for="keywords-input">Enter keywords about your program:</label>
+<input type="text" id="keywords-input" placeholder="Enter keywords">
+
+<button id="recommend-button">Get Recommendations</button>
+
+<div id="recommend-results">
+  <!-- Recommendation results will be appended here -->
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
@@ -38,17 +51,40 @@ $(document).ready(function(){
       return;
     }
     $.ajax({
-      url: '/songs/search',
+      url: '/songs/search-solr',
       type: 'GET',
-      data: { title: queryText },
+      data: { query: queryText },
       success: function(data){
         $('#search-results').empty();
         data.forEach(function(song){
-          $('#search-results').append('<div class="song-item">' + song.title + '</div>');
+          $('#search-results').append('<div class="song-item"><a href="/songs/' + song.id + '">' + song.title + '</a></div>');
         });
       },
       error: function(err){
         console.error('Error occurred during search:', err);
+      }
+    });
+  });
+
+  $('#recommend-button').on('click', function(){
+    const keywords = $('#keywords-input').val().trim();
+    if (!keywords) {
+      $('#recommend-results').empty();
+      return;
+    }
+    // Send the keywords to the server for processing and retrieve song recommendations
+    $.ajax({
+      url: '/songs/search-solr',
+      type: 'GET',
+      data: { keywords: keywords },
+      success: function(data){
+        $('#recommend-results').empty();
+        data.forEach(function(recommendation){
+          $('#recommend-results').append('<div class="song-item">' + recommendation.title + '</div>');
+        });
+      },
+      error: function(err){
+        console.error('Error occurred during recommendation:', err);
       }
     });
   });

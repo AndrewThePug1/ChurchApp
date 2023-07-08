@@ -1,50 +1,104 @@
 <% layout('layouts/boilerplate') %>
 
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
 
 <style>
-  .card {
-    border: 1px solid black;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #f2f2f2;
-    font-family: 'Roboto', sans-serif;
+  /* Your existing CSS styles ... */
+
+  /* Add the following styles */
+  .song-link,
+  .youtube-link {
+    color: #000000;
+    text-decoration: underline;
   }
 
-  .card-title {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: black;
-    text-decoration: none;
-    font-family: 'Roboto', sans-serif;
-  }
-
-  .card-text {
-    color: #555;
-    font-family: 'Roboto', sans-serif;
-  }
-
-  h1 {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    padding: 20px 0;
+  th.sorting_asc::before,
+  th.sorting_desc::before {
+    color: #000000;
   }
 </style>
 
-<h1>Filtered Songs</h1>
+<div class="filter-header">
+  <img src="https://image.flaticon.com/icons/png/512/1508/1508843.png" id="filter-icon"> <!-- Add your filter icon image URL here -->
+  <div id="filter-list" style="display:none;">
+    <input type="checkbox" id="title-filter" checked>Song Title
+    <input type="checkbox" id="singer-filter" checked>Singer
+    <input type="checkbox" id="theme-filter" checked>Theme
+    <input type="checkbox" id="language-filter" checked>Language
+    <input type="checkbox" id="original-filter" checked>Original Singer
+    <input type="checkbox" id="preview-filter" checked>Preview
+    <input type="checkbox" id="youtube-link-filter" checked>YouTube Link
+  </div>
+</div>
 
-<ul>
-  <% songs.forEach(song => { %>
-    <div class="card">
-      <div class="col-md-8">
-        <h5 class="card-title">
-          <a href="/songs/<%= song._id %>" style="color: black; text-decoration: none;"><%= song.title %></a>
-        </h5>
-        <p class="card-text"><%= song.singerOrType %></p>
-      </div>
-    </div>
-  <% }); %>
-</ul>
+<table class="table" id="songs-table">
+  <thead>
+    <tr>
+      <th class="sorting">Song Title</th>
+      <th>Singer</th>
+      <th>Theme</th>
+      <th>Language</th>
+      <th>Original Singer</th>
+      <th>Preview</th>
+      <th>YouTube Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% songs.forEach(song => { %>
+      <tr>
+        <td><a class="song-link" href="/songs/<%= song._id %>"><%= song.title %></a></td>
+        <td><%= song.singerOrType %></td>
+        <td><%= song.theme %></td>
+        <td><%= song.language %></td>
+        <td><%= song.original_artist %></td>
+        <td>
+          <% 
+            const spotifyLink = song.spotify_link;
+            const spotifyCode = spotifyLink.includes("open.spotify.com") ? spotifyLink.replace("open.spotify.com", "open.spotify.com/embed") : `https://open.spotify.com/embed/track/${spotifyLink.split("/").pop()}`;
+          %>
+          <div class="spotify-preview">
+            <iframe src="<%= spotifyCode %>" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          </div>
+        </td>
+        <td><a class="youtube-link" href="<%= song.youtube_link %>">YouTube Link</a></td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready(function() {
+  $('#songs-table').DataTable({
+    "order": [[ 0, "asc" ]] // Start with sorting by the first column (0-indexed) in ascending order
+  });
+
+  $('#title-filter').change(function() {
+    $('td:nth-child(1), th:nth-child(1)').toggle();
+  });
+  $('#singer-filter').change(function() {
+    $('td:nth-child(2), th:nth-child(2)').toggle();
+  });
+  $('#theme-filter').change(function() {
+    $('td:nth-child(3), th:nth-child(3)').toggle();
+  });
+  $('#language-filter').change(function() {
+    $('td:nth-child(4), th:nth-child(4)').toggle();
+  });
+  $('#original-filter').change(function() {
+    $('td:nth-child(5), th:nth-child(5)').toggle();
+  });
+  $('#preview-filter').change(function() {
+    $('td:nth-child(6), th:nth-child(6)').toggle();
+  });
+  $('#youtube-link-filter').change(function() {
+    $('td:nth-child(7), th:nth-child(7)').toggle();
+  });
+
+  $('#filter-icon').click(function() {
+    $('#filter-list').toggle();
+  });
+});
+</script>
